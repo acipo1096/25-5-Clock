@@ -116,25 +116,22 @@ const SessionTimer = () => {
   // SESSION EFFECT - controls session timer countdown
   useEffect(() => {
     if (isActive && isBreak === false && nextSecond >= 10) {
+      // setDefaultView(sessionMinutes > 9 ? `${sessionMinutes}:0${0}` : `0${sessionMinutes}:0${0}`),
       setDefaults();
-      // if (nextBreakMinute === 0 && nextBreakSecond === -1) {
-      //     setSessionSeconds(breakSeconds + 59)
-      //     setSessionMinutes(defaultBreak)
-      //   console.log('whaddup')
-      // }
-      sessionInterval = setInterval(myCallback, 1000)
+      sessionInterval = setInterval(myCallback, 100)
       function myCallback() {
         setSessionSeconds(nextSecond);
         setDefaultView(sessionMinutes > 9 ? `${nextMinute}:${nextSecond}` : `0${nextMinute}:${nextSecond}`)
       }
-    } else if (isActive && nextSecond < 10 && nextSecond >= 0) {
+    } else if (isActive && isBreak === false && nextSecond < 10 && nextSecond >= 0) {
       setDefaults();
-      sessionInterval = setInterval(myCallback, 1000)
+      sessionInterval = setInterval(myCallback, 100)
       function myCallback() {
         setSessionSeconds(nextSecond);
         setDefaultView(sessionMinutes > 9 ? `${nextMinute}:0${nextSecond}` : `0${nextMinute}:0${nextSecond}`)
+        console.log(defaultSession)
       }
-    } else if (isActive && nextSecond === -1) {
+    } else if (isActive  && isBreak === false && nextSecond === -1) {
       setDefaults();
       if (nextMinute > 0) {
         setSessionMinutes(nextMinute)
@@ -147,10 +144,11 @@ const SessionTimer = () => {
         }
         delay(1000).then(() =>
           setSessionSeconds(sessionSeconds + 60),
-          setSessionMinutes(defaultSession + 1),
-          setIsBreak(true),
+          setSessionMinutes(defaultSession),
+          console.log(sessionMinutes),
           setTimerLabel("Break")
         );
+        setIsBreak(true)
         // setPlayAudio(true)
       }
     }
@@ -167,21 +165,27 @@ const SessionTimer = () => {
     //   console.log(defaultSession)
     //   console.log('hello')
     // }
+    // function delay(time) {
+    //       return new Promise(resolve => setTimeout(resolve, time));
+    //     }
+    //     delay(1000).then(() =>
+    //       setBreakView(breakMinutes > 9 ? `${breakMinutes}:0${0}` : `0${breakMinutes}:0${0}`),
+    //     );
     if (isActive && isBreak === true && nextBreakSecond >= 10) {
       setDefaults();
-      breakInterval = setInterval(myCallback, 1000)
+      breakInterval = setInterval(myCallback, 100)
       function myCallback() {
         setBreakSeconds(nextBreakSecond)
         setBreakView(breakMinutes > 9 ? `${nextBreakMinute}:${nextBreakSecond}` : `0${nextBreakMinute}:${nextBreakSecond}`)
       }
-    } else if (isActive && nextBreakSecond < 10 && nextBreakSecond > -1) {
+    } else if (isActive && isBreak === true && nextBreakSecond < 10 && nextBreakSecond > -1) {
       setDefaults();
-      breakInterval = setInterval(myCallback, 1000)
+      breakInterval = setInterval(myCallback, 100)
       function myCallback() {
         setBreakSeconds(nextBreakSecond);
-        setBreakView(`${nextBreakMinute}:0${nextBreakSecond}`)
+        setBreakView(`0${nextBreakMinute}:0${nextBreakSecond}`)
       }
-    } else if (isActive && nextBreakSecond === -1) {
+    } else if (isActive && isBreak === true && nextBreakSecond === -1) {
       setDefaults();
       if (nextBreakMinute > 0) {
         setBreakMinutes(nextBreakMinute)
@@ -195,7 +199,8 @@ const SessionTimer = () => {
         }
         delay(1000).then(() =>
           setBreakSeconds(breakSeconds + 59),
-          setBreakMinutes(defaultBreak + 1),
+          setBreakMinutes(defaultBreak),
+          console.log(breakMinutes),
           setIsBreak(false)
         );
         setTimerLabel("Session")
