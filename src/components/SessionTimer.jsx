@@ -44,7 +44,7 @@ const SessionTimer = () => {
     setSessionMinutes(sessionMinutes + 1);
     // timeLeft.innerText = sessionMinutes > 8 ? `${sessionMinutes + 1}:00` : `0${sessionMinutes + 1}:00`
     setDefaultSession(defaultSession + 1);
-    setDefaultView(sessionMinutes > 9 ? `${sessionMinutes + 1}:00` : `0${sessionMinutes + 1}:00`)
+    setDefaultView(sessionMinutes > 9 ? `${sessionMinutes}:00` : `0${sessionMinutes}:00`)
   }
 
   // Decrements session minutes
@@ -52,8 +52,8 @@ const SessionTimer = () => {
     if (sessionMinutes > 1) {
       setSessionMinutes(sessionMinutes - 1);
       // timeLeft.innerText = sessionMinutes > 10 ? `${sessionMinutes - 1}:00` : `0${sessionMinutes - 1}:00`
-      setDefaultSession(defaultSession - 1);
-      setDefaultView(sessionMinutes > 9 ? `${sessionMinutes - 1}:00` : `0${sessionMinutes - 1}:00`)
+      setDefaultSession(defaultSession);
+      setDefaultView(sessionMinutes > 9 ? `${sessionMinutes}:00` : `0${sessionMinutes}:00`)
     }
   }
 
@@ -131,25 +131,29 @@ const SessionTimer = () => {
         setDefaultView(sessionMinutes > 9 ? `${nextMinute}:0${nextSecond}` : `0${nextMinute}:0${nextSecond}`)
         console.log(defaultSession)
       }
-    } else if (isActive  && isBreak === false && nextSecond === -1) {
+    } else if (isActive && isBreak === false && nextSecond === -1) {
       setDefaults();
       if (nextMinute > 0) {
         setSessionMinutes(nextMinute)
         setSessionSeconds(nextSecond + 61);
       }
       else {
-        console.log('Timer done!')
-        function delay(time) {
-          return new Promise(resolve => setTimeout(resolve, time));
-        }
-        delay(1000).then(() =>
-          setSessionSeconds(sessionSeconds + 60),
-          setSessionMinutes(defaultSession),
-          console.log(sessionMinutes),
-          setTimerLabel("Break")
-        );
         setIsBreak(true)
+        console.log('Timer done!')
+        setIsBreak(true)
+        setTimerLabel("Break")
+        setSessionSeconds(sessionSeconds + 60)
+        setSessionMinutes(defaultSession)
+        setDefaultView(breakMinutes > 9 ? `${defaultSession}:0${0}` : `0${defaultSession}:0${0}`)
         // setPlayAudio(true)
+        // setSessionSeconds(sessionSeconds + 60)
+        // setSessionMinutes(defaultSession)
+        // console.log(sessionMinutes),
+        // setTimerLabel("Break")
+        // setTimeout(function(){
+        //     console.log('wait')
+        // }, 1000);
+        // setBreakView(breakMinutes > 9 ? `${defaultBreak}:0${0}` : `0${defaultBreak}:0${0}`)
       }
     }
     return () => clearInterval(sessionInterval);
@@ -193,17 +197,11 @@ const SessionTimer = () => {
       }
       else {
         console.log('Break timer done!');
+        setIsBreak(false)
         setTimerLabel("Session");
-        function delay(time) {
-          return new Promise(resolve => setTimeout(resolve, time));
-        }
-        delay(1000).then(() =>
-          setBreakSeconds(breakSeconds + 59),
-          setBreakMinutes(defaultBreak),
-          console.log(breakMinutes),
-          setIsBreak(false)
-        );
-        setTimerLabel("Session")
+        setBreakSeconds(breakSeconds + 59),
+        setBreakMinutes(defaultBreak)
+        setBreakView(breakMinutes > 9 ? `${defaultBreak}:0${0}` : `0${defaultBreak}:0${0}`)
       }
     }
     return () => clearInterval(breakInterval);
