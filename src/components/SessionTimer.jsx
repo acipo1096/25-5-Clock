@@ -52,8 +52,8 @@ const SessionTimer = () => {
     if (sessionMinutes > 1) {
       setSessionMinutes(sessionMinutes - 1);
       // timeLeft.innerText = sessionMinutes > 10 ? `${sessionMinutes - 1}:00` : `0${sessionMinutes - 1}:00`
-      setDefaultSession(defaultSession);
-      setDefaultView(sessionMinutes > 9 ? `${sessionMinutes}:00` : `0${sessionMinutes}:00`)
+      setDefaultSession(defaultSession - 1);
+      setDefaultView(sessionMinutes > 9 ? `${sessionMinutes - 1}:00` : `0${sessionMinutes - 1}:00`)
     }
   }
 
