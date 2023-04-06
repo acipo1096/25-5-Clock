@@ -52,7 +52,6 @@ const SessionTimer = () => {
   function decrementSessionMinutes() {
     if (sessionMinutes > 1) {
       setSessionMinutes(sessionMinutes - 1);
-      // timeLeft.innerText = sessionMinutes > 10 ? `${sessionMinutes - 1}:00` : `0${sessionMinutes - 1}:00`
       setDefaultSession(defaultSession - 1);
       setDefaultView(sessionMinutes > 10 ? `${sessionMinutes - 1}:00` : `0${sessionMinutes - 1}:00`)
     }
@@ -101,9 +100,9 @@ const SessionTimer = () => {
     clearInterval(breakInterval)
   }
 
-  useEffect(() => {
-    // playAudio === true ? audio.play() : audio.pause()
-  })
+  // useEffect(() => {
+  //   playAudio === true ? audio.play() : audio.pause()
+  // })
 
   // Switches play/pause icon & sets timer to play or pause
   useEffect(() => {
@@ -119,16 +118,15 @@ const SessionTimer = () => {
   // SESSION EFFECT - controls session timer countdown
   useEffect(() => {
     if (isActive && isBreak === false && nextSecond >= 10) {
-      // setDefaultView(sessionMinutes > 9 ? `${sessionMinutes}:0${0}` : `0${sessionMinutes}:0${0}`),
       setDefaults();
-      sessionInterval = setInterval(myCallback, .01)
+      sessionInterval = setInterval(myCallback, 1000)
       function myCallback() {
         setSessionSeconds(nextSecond);
         setDefaultView(sessionMinutes > 9 ? `${nextMinute}:${nextSecond}` : `0${nextMinute}:${nextSecond}`)
       }
     } else if (isActive && isBreak === false && nextSecond < 10 && nextSecond >= 0) {
       setDefaults();
-      sessionInterval = setInterval(myCallback, .01)
+      sessionInterval = setInterval(myCallback, 1000)
       function myCallback() {
         setSessionSeconds(nextSecond);
         setDefaultView(sessionMinutes > 9 ? `${nextMinute}:0${nextSecond}` : `0${nextMinute}:0${nextSecond}`)
@@ -151,22 +149,6 @@ const SessionTimer = () => {
           setSessionMinutes(defaultSession)
           setDefaultView(breakMinutes > 9 ? `${defaultSession}:0${0}` : `0${defaultSession}:0${0}`)
         },"3000")
-        // setIsBreak(true)
-        // console.log('Timer done!')
-        // setIsBreak(true)
-        // setTimerLabel("Break")
-        // setSessionSeconds(sessionSeconds + 60)
-        // setSessionMinutes(defaultSession)
-        // setDefaultView(breakMinutes > 9 ? `${defaultSession}:0${0}` : `0${defaultSession}:0${0}`)
-        // setPlayAudio(true)
-        // setSessionSeconds(sessionSeconds + 60)
-        // setSessionMinutes(defaultSession)
-        // console.log(sessionMinutes),
-        // setTimerLabel("Break")
-        // setTimeout(function(){
-        //     console.log('wait')
-        // }, 1000);
-        // setBreakView(breakMinutes > 9 ? `${defaultBreak}:0${0}` : `0${defaultBreak}:0${0}`)
       }
     }
     return () => clearInterval(sessionInterval);
@@ -174,20 +156,6 @@ const SessionTimer = () => {
 
   // BREAK EFFECT - controls break timer countdown
   useEffect(() => {
-    // let interval = null;
-    // setPlayAudio(false);
-    // if (isBreak === true && nextMinute === 0 && nextSecond === -1) {
-    //   setSessionSeconds(sessionSeconds + 59)
-    //   setSessionMinutes(defaultSession)
-    //   console.log(defaultSession)
-    //   console.log('hello')
-    // }
-    // function delay(time) {
-    //       return new Promise(resolve => setTimeout(resolve, time));
-    //     }
-    //     delay(1000).then(() =>
-    //       setBreakView(breakMinutes > 9 ? `${breakMinutes}:0${0}` : `0${breakMinutes}:0${0}`),
-    //     );
     if (isActive && isBreak === true && nextBreakSecond >= 10) {
       setDefaults();
       breakInterval = setInterval(myCallback, 1000)
@@ -213,7 +181,7 @@ const SessionTimer = () => {
         setIsBreak(false)
         setTimerLabel("Session");
         setBreakSeconds(breakSeconds + 59),
-          setBreakMinutes(defaultBreak)
+        setBreakMinutes(defaultBreak)
         setBreakView(breakMinutes > 9 ? `${defaultBreak}:0${0}` : `0${defaultBreak}:0${0}`)
       }
     }
@@ -254,12 +222,6 @@ const SessionTimer = () => {
             isActive === true && isBreak === false && clockRefresh === false ? defaultView :
               isActive === false && isBreak === false && clockRefresh === false ? defaultView :
                 breakView}
-          {/*           {isActive === true && isBreak === false && clockRefresh === false ?
-            sessionPlayView :
-            isActive === false && isBreak === false && clockRefresh === false ?
-              sessionPauseView :
-              isActive === false && clockRefresh === true ?
-                defaultView : 'NG'} */}
         </div>
       </div>
       <div id="timer-options">
