@@ -41,10 +41,11 @@ const SessionTimer = () => {
 
   // Increments session minutes
   function incrementSessionMinutes() {
-    setSessionMinutes(sessionMinutes + 1);
-    // timeLeft.innerText = sessionMinutes > 8 ? `${sessionMinutes + 1}:00` : `0${sessionMinutes + 1}:00`
-    setDefaultSession(defaultSession + 1);
-    setDefaultView(sessionMinutes > 8 ? `${sessionMinutes + 1}:00` : `0${sessionMinutes + 1}:00`)
+    if (sessionMinutes < 60) {
+      setSessionMinutes(sessionMinutes + 1);
+      setDefaultSession(defaultSession + 1);
+      setDefaultView(sessionMinutes > 8 ? `${sessionMinutes + 1}:00` : `0${sessionMinutes + 1}:00`)
+    }
   }
 
   // Decrements session minutes
@@ -59,8 +60,10 @@ const SessionTimer = () => {
 
   // Increments break minutes
   function incrementBreakMinutes() {
-    setBreakMinutes(breakMinutes + 1);
-    setDefaultBreak(defaultBreak + 1);
+    if (breakMinutes < 60) {
+      setBreakMinutes(breakMinutes + 1);
+      setDefaultBreak(defaultBreak + 1); 
+    }
   }
 
   // Decrements break minutes

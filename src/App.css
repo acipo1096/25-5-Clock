@@ -40,14 +40,13 @@ body {
   margin-left: 50%;
 }
 
-#start_stop {
+/* #start_stop {
   padding-right: 3px;
 }
 
 #reset {
   flex: 1;
-  padding-left: 3px;
-}
+} */
 
 #timer-label {
   font-weight: 600;
