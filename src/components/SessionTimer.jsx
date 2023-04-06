@@ -121,14 +121,14 @@ const SessionTimer = () => {
     if (isActive && isBreak === false && nextSecond >= 10) {
       // setDefaultView(sessionMinutes > 9 ? `${sessionMinutes}:0${0}` : `0${sessionMinutes}:0${0}`),
       setDefaults();
-      sessionInterval = setInterval(myCallback, 1000)
+      sessionInterval = setInterval(myCallback, .01)
       function myCallback() {
         setSessionSeconds(nextSecond);
         setDefaultView(sessionMinutes > 9 ? `${nextMinute}:${nextSecond}` : `0${nextMinute}:${nextSecond}`)
       }
     } else if (isActive && isBreak === false && nextSecond < 10 && nextSecond >= 0) {
       setDefaults();
-      sessionInterval = setInterval(myCallback, 1000)
+      sessionInterval = setInterval(myCallback, .01)
       function myCallback() {
         setSessionSeconds(nextSecond);
         setDefaultView(sessionMinutes > 9 ? `${nextMinute}:0${nextSecond}` : `0${nextMinute}:0${nextSecond}`)
@@ -141,13 +141,23 @@ const SessionTimer = () => {
         setSessionSeconds(nextSecond + 61);
       }
       else {
-        setIsBreak(true)
-        console.log('Timer done!')
-        setIsBreak(true)
-        setTimerLabel("Break")
-        setSessionSeconds(sessionSeconds + 60)
-        setSessionMinutes(defaultSession)
-        setDefaultView(breakMinutes > 9 ? `${defaultSession}:0${0}` : `0${defaultSession}:0${0}`)
+        setTimeout(()=>{
+          console.log("Timer has reached 00:00")
+          setIsBreak(true)
+          console.log('Timer done!')
+          setIsBreak(true)
+          setTimerLabel("Break")
+          setSessionSeconds(sessionSeconds + 60)
+          setSessionMinutes(defaultSession)
+          setDefaultView(breakMinutes > 9 ? `${defaultSession}:0${0}` : `0${defaultSession}:0${0}`)
+        },"3000")
+        // setIsBreak(true)
+        // console.log('Timer done!')
+        // setIsBreak(true)
+        // setTimerLabel("Break")
+        // setSessionSeconds(sessionSeconds + 60)
+        // setSessionMinutes(defaultSession)
+        // setDefaultView(breakMinutes > 9 ? `${defaultSession}:0${0}` : `0${defaultSession}:0${0}`)
         // setPlayAudio(true)
         // setSessionSeconds(sessionSeconds + 60)
         // setSessionMinutes(defaultSession)
