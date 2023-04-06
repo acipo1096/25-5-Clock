@@ -200,7 +200,7 @@ const SessionTimer = () => {
         setIsBreak(false)
         setTimerLabel("Session");
         setBreakSeconds(breakSeconds + 59),
-        setBreakMinutes(defaultBreak)
+          setBreakMinutes(defaultBreak)
         setBreakView(breakMinutes > 9 ? `${defaultBreak}:0${0}` : `0${defaultBreak}:0${0}`)
       }
     }
@@ -214,11 +214,11 @@ const SessionTimer = () => {
         <div id="session-block">
           <p id="session-label">Session Length</p>
           <div id="session-counter">
-            <div className="expand"><i id="session-increment" onClick={incrementSessionMinutes}>
+            <div><i id="session-increment" onClick={incrementSessionMinutes}>
               <FontAwesomeIcon icon={faArrowUp} /></i></div>
             <div id="session-length" className="expand">{defaultSession}</div>
             {/*             isActive === false ? sessionMinutes :  */}
-            <div className="expand"><i id="session-decrement" onClick={decrementSessionMinutes}>
+            <div><i id="session-decrement" onClick={decrementSessionMinutes}>
               <FontAwesomeIcon icon={faArrowDown} /></i></div>
           </div>
         </div>
@@ -228,7 +228,7 @@ const SessionTimer = () => {
             <div className="expand"><i id="break-increment" onClick={incrementBreakMinutes}>
               <FontAwesomeIcon icon={faArrowUp} /></i></div>
             <div id="break-length" className="expand">{defaultBreak}</div>
-            <div className="expand"><i id="break-decrement" onClick={decrementBreakMinutes}>
+            <div><i id="break-decrement" onClick={decrementBreakMinutes}>
               <FontAwesomeIcon icon={faArrowDown} /></i></div>
           </div>
         </div>
