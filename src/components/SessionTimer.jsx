@@ -4,16 +4,16 @@ import { faArrowUp, faArrowDown, faPlay, faUndo, faPause } from '@fortawesome/fr
 
 const SessionTimer = () => {
   // Session variables
-  const [defaultSession, setDefaultSession] = useState(1)
-  const [sessionMinutes, setSessionMinutes] = useState(1);
+  const [defaultSession, setDefaultSession] = useState(25)
+  const [sessionMinutes, setSessionMinutes] = useState(25);
   const [sessionSeconds, setSessionSeconds] = useState(60);
   const [timerLabel, setTimerLabel] = useState("Session");
   const nextSecond = sessionSeconds - 1;
   const nextMinute = sessionMinutes - 1;
 
   // Break variables
-  const [defaultBreak, setDefaultBreak] = useState(2)
-  const [breakMinutes, setBreakMinutes] = useState(2);
+  const [defaultBreak, setDefaultBreak] = useState(5)
+  const [breakMinutes, setBreakMinutes] = useState(5);
   const [breakSeconds, setBreakSeconds] = useState(60);
   const nextBreakSecond = breakSeconds - 1;
   const nextBreakMinute = breakMinutes - 1;
@@ -44,7 +44,7 @@ const SessionTimer = () => {
     setSessionMinutes(sessionMinutes + 1);
     // timeLeft.innerText = sessionMinutes > 8 ? `${sessionMinutes + 1}:00` : `0${sessionMinutes + 1}:00`
     setDefaultSession(defaultSession + 1);
-    setDefaultView(sessionMinutes > 9 ? `${sessionMinutes + 1}:00` : `0${sessionMinutes + 1}:00`)
+    setDefaultView(sessionMinutes > 8 ? `${sessionMinutes + 1}:00` : `0${sessionMinutes + 1}:00`)
   }
 
   // Decrements session minutes
@@ -53,7 +53,7 @@ const SessionTimer = () => {
       setSessionMinutes(sessionMinutes - 1);
       // timeLeft.innerText = sessionMinutes > 10 ? `${sessionMinutes - 1}:00` : `0${sessionMinutes - 1}:00`
       setDefaultSession(defaultSession - 1);
-      setDefaultView(sessionMinutes > 9 ? `${sessionMinutes - 1}:00` : `0${sessionMinutes - 1}:00`)
+      setDefaultView(sessionMinutes > 10 ? `${sessionMinutes - 1}:00` : `0${sessionMinutes - 1}:00`)
     }
   }
 
@@ -86,13 +86,13 @@ const SessionTimer = () => {
     setClockRefresh(true)
     setTimerLabel("Session");
     setPlayPause(<FontAwesomeIcon icon={faPlay} />)
-    setDefaultSession(1)
-    setSessionMinutes(1)
+    setDefaultSession(25)
+    setSessionMinutes(25)
     setSessionSeconds(60)
     setDefaultBreak(5)
     setBreakMinutes(5)
     setBreakSeconds(60)
-    setDefaultView(`${1}:00`)
+    setDefaultView(`${25}:00`)
     // setPlayAudio(false)
     clearInterval(sessionInterval)
     clearInterval(breakInterval)
@@ -118,14 +118,14 @@ const SessionTimer = () => {
     if (isActive && isBreak === false && nextSecond >= 10) {
       // setDefaultView(sessionMinutes > 9 ? `${sessionMinutes}:0${0}` : `0${sessionMinutes}:0${0}`),
       setDefaults();
-      sessionInterval = setInterval(myCallback, 100)
+      sessionInterval = setInterval(myCallback, 1000)
       function myCallback() {
         setSessionSeconds(nextSecond);
         setDefaultView(sessionMinutes > 9 ? `${nextMinute}:${nextSecond}` : `0${nextMinute}:${nextSecond}`)
       }
     } else if (isActive && isBreak === false && nextSecond < 10 && nextSecond >= 0) {
       setDefaults();
-      sessionInterval = setInterval(myCallback, 100)
+      sessionInterval = setInterval(myCallback, 1000)
       function myCallback() {
         setSessionSeconds(nextSecond);
         setDefaultView(sessionMinutes > 9 ? `${nextMinute}:0${nextSecond}` : `0${nextMinute}:0${nextSecond}`)
@@ -177,14 +177,14 @@ const SessionTimer = () => {
     //     );
     if (isActive && isBreak === true && nextBreakSecond >= 10) {
       setDefaults();
-      breakInterval = setInterval(myCallback, 100)
+      breakInterval = setInterval(myCallback, 1000)
       function myCallback() {
         setBreakSeconds(nextBreakSecond)
         setBreakView(breakMinutes > 9 ? `${nextBreakMinute}:${nextBreakSecond}` : `0${nextBreakMinute}:${nextBreakSecond}`)
       }
     } else if (isActive && isBreak === true && nextBreakSecond < 10 && nextBreakSecond > -1) {
       setDefaults();
-      breakInterval = setInterval(myCallback, 100)
+      breakInterval = setInterval(myCallback, 1000)
       function myCallback() {
         setBreakSeconds(nextBreakSecond);
         setBreakView(`0${nextBreakMinute}:0${nextBreakSecond}`)
@@ -214,22 +214,22 @@ const SessionTimer = () => {
         <div id="session-block">
           <p id="session-label">Session Length</p>
           <div id="session-counter">
-            <div><i id="session-increment" onClick={incrementSessionMinutes}>
-              <FontAwesomeIcon icon={faArrowUp} /></i></div>
+            <button><i id="session-increment" onClick={incrementSessionMinutes}>
+              <FontAwesomeIcon icon={faArrowUp} /></i></button>
             <div id="session-length" className="expand">{defaultSession}</div>
             {/*             isActive === false ? sessionMinutes :  */}
-            <div><i id="session-decrement" onClick={decrementSessionMinutes}>
-              <FontAwesomeIcon icon={faArrowDown} /></i></div>
+            <button><i id="session-decrement" onClick={decrementSessionMinutes}>
+              <FontAwesomeIcon icon={faArrowDown} /></i></button>
           </div>
         </div>
         <div id="break-block">
           <p id="break-label">Break Length</p>
           <div id="break-counter">
-            <div className="expand"><i id="break-increment" onClick={incrementBreakMinutes}>
-              <FontAwesomeIcon icon={faArrowUp} /></i></div>
+            <button><i id="break-increment" onClick={incrementBreakMinutes}>
+              <FontAwesomeIcon icon={faArrowUp} /></i></button>
             <div id="break-length" className="expand">{defaultBreak}</div>
-            <div><i id="break-decrement" onClick={decrementBreakMinutes}>
-              <FontAwesomeIcon icon={faArrowDown} /></i></div>
+            <button><i id="break-decrement" onClick={decrementBreakMinutes}>
+              <FontAwesomeIcon icon={faArrowDown} /></i></button>
           </div>
         </div>
       </div>
@@ -250,13 +250,13 @@ const SessionTimer = () => {
         </div>
       </div>
       <div id="timer-options">
-        <div id="start_stop"><i className="fa-solid fa-play" onClick={() => {
+        <button id="start_stop"><i className="fa-solid fa-play" onClick={() => {
           toggle();
         }}>
-          {playPause}</i></div>
-        <div id="reset"><i className="fas fa-undo" onClick={() => {
+          {playPause}</i></button>
+        <button id="reset"><i className="fas fa-undo" onClick={() => {
           resetTimer();
-        }}><FontAwesomeIcon icon={faUndo} /></i></div>
+        }}><FontAwesomeIcon icon={faUndo} /></i></button>
       </div>
     </>
   )
