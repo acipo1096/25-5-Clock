@@ -61,7 +61,7 @@ const SessionTimer = () => {
   function incrementBreakMinutes() {
     if (breakMinutes < 60) {
       setBreakMinutes(breakMinutes + 1);
-      setDefaultBreak(defaultBreak + 1); 
+      setDefaultBreak(defaultBreak + 1);
     }
   }
 
@@ -139,7 +139,7 @@ const SessionTimer = () => {
         setSessionSeconds(nextSecond + 61);
       }
       else {
-        setTimeout(()=>{
+        setTimeout(() => {
           console.log("Timer has reached 00:00")
           setIsBreak(true)
           console.log('Timer done!')
@@ -148,7 +148,7 @@ const SessionTimer = () => {
           setSessionSeconds(sessionSeconds + 60)
           setSessionMinutes(defaultSession)
           setDefaultView(breakMinutes > 9 ? `${defaultSession}:0${0}` : `0${defaultSession}:0${0}`)
-        },"3000")
+        }, "3000")
       }
     }
     return () => clearInterval(sessionInterval);
@@ -181,7 +181,7 @@ const SessionTimer = () => {
         setIsBreak(false)
         setTimerLabel("Session");
         setBreakSeconds(breakSeconds + 59),
-        setBreakMinutes(defaultBreak)
+          setBreakMinutes(defaultBreak)
         setBreakView(breakMinutes > 9 ? `${defaultBreak}:0${0}` : `0${defaultBreak}:0${0}`)
       }
     }
@@ -195,21 +195,21 @@ const SessionTimer = () => {
         <div id="session-block">
           <p id="session-label">Session Length</p>
           <div id="session-counter">
-            <button><i id="session-increment" onClick={incrementSessionMinutes}>
+            <button id="session-increment" onClick={incrementSessionMinutes}><i>
               <FontAwesomeIcon icon={faArrowUp} /></i></button>
             <div id="session-length" className="expand">{defaultSession}</div>
             {/*             isActive === false ? sessionMinutes :  */}
-            <button><i id="session-decrement" onClick={decrementSessionMinutes}>
+            <button id="session-decrement" onClick={decrementSessionMinutes}><i>
               <FontAwesomeIcon icon={faArrowDown} /></i></button>
           </div>
         </div>
         <div id="break-block">
           <p id="break-label">Break Length</p>
           <div id="break-counter">
-            <button><i id="break-increment" onClick={incrementBreakMinutes}>
+            <button id="break-increment" onClick={incrementBreakMinutes}><i>
               <FontAwesomeIcon icon={faArrowUp} /></i></button>
             <div id="break-length" className="expand">{defaultBreak}</div>
-            <button><i id="break-decrement" onClick={decrementBreakMinutes}>
+            <button id="break-decrement" onClick={decrementBreakMinutes}><i>
               <FontAwesomeIcon icon={faArrowDown} /></i></button>
           </div>
         </div>
