@@ -62,6 +62,7 @@ const SessionTimer = () => {
     if (breakMinutes < 60) {
       setBreakMinutes(breakMinutes + 1);
       setDefaultBreak(defaultBreak + 1);
+      setBreakView(breakMinutes > 8 ? `${breakMinutes + 1}:00` : `0${breakMinutes + 1}:00`)
     }
   }
 
@@ -70,6 +71,7 @@ const SessionTimer = () => {
     if (breakMinutes > 1) {
       setBreakMinutes(breakMinutes - 1);
       setDefaultBreak(defaultBreak - 1);
+      setBreakView(breakMinutes > 10 ? `${breakMinutes - 1}:00` : `0${breakMinutes - 1}:00`)
 
     }
   }
@@ -148,7 +150,7 @@ const SessionTimer = () => {
           setSessionSeconds(sessionSeconds + 60)
           setSessionMinutes(defaultSession)
           setDefaultView(breakMinutes > 9 ? `${defaultSession}:0${0}` : `0${defaultSession}:0${0}`)
-        }, "3000")
+        }, "1000")
       }
     }
     return () => clearInterval(sessionInterval);
@@ -177,12 +179,14 @@ const SessionTimer = () => {
         setBreakSeconds(nextBreakSecond + 61);
       }
       else {
-        console.log('Break timer done!');
-        setIsBreak(false)
-        setTimerLabel("Session");
-        setBreakSeconds(breakSeconds + 59),
-          setBreakMinutes(defaultBreak)
-        setBreakView(breakMinutes > 9 ? `${defaultBreak}:0${0}` : `0${defaultBreak}:0${0}`)
+        setTimeout(() => {
+          console.log('Break timer done!');
+          setIsBreak(false)
+          setTimerLabel("Session");
+          setBreakSeconds(breakSeconds + 59),
+            setBreakMinutes(defaultBreak)
+          setBreakView(breakMinutes > 9 ? `${defaultBreak}:0${0}` : `0${defaultBreak}:0${0}`)
+        }, "1000")
       }
     }
     return () => clearInterval(breakInterval);
@@ -225,13 +229,13 @@ const SessionTimer = () => {
         </div>
       </div>
       <div id="timer-options">
-        <button id="start_stop"><i className="fa-solid fa-play" onClick={() => {
+        <button id="start_stop" onClick={() => {
           toggle();
-        }}>
-          {playPause}</i></button>
-        <button id="reset"><i className="fas fa-undo" onClick={() => {
+        }}><i>
+            {playPause}</i></button>
+        <button id="reset" onClick={() => {
           resetTimer();
-        }}><FontAwesomeIcon icon={faUndo} /></i></button>
+        }}><i><FontAwesomeIcon icon={faUndo} /></i></button>
       </div>
     </>
   )
