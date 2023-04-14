@@ -1,4 +1,4 @@
-import React, { useState, useEffect, isValidElement } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowUp, faArrowDown, faPlay, faUndo, faPause } from '@fortawesome/free-solid-svg-icons'
 
@@ -17,6 +17,8 @@ const SessionTimer = () => {
   const [breakSeconds, setBreakSeconds] = useState(60);
   const nextBreakSecond = breakSeconds - 1;
   const nextBreakMinute = breakMinutes - 1;
+
+  console.log(breakMinutes + ":" + breakSeconds)
 
   //Timer controls
   const [clockRefresh, setClockRefresh] = useState(true);
@@ -119,38 +121,36 @@ const SessionTimer = () => {
 
   // SESSION EFFECT - controls session timer countdown
   useEffect(() => {
+    setDefaults();
     if (isActive && isBreak === false && nextSecond >= 10) {
-      setDefaults();
+      // setDefaults();
       sessionInterval = setInterval(myCallback, 1000)
       function myCallback() {
         setSessionSeconds(nextSecond);
         setDefaultView(sessionMinutes > 9 ? `${nextMinute}:${nextSecond}` : `0${nextMinute}:${nextSecond}`)
       }
     } else if (isActive && isBreak === false && nextSecond < 10 && nextSecond >= 0) {
-      setDefaults();
+      // setDefaults();
       sessionInterval = setInterval(myCallback, 1000)
       function myCallback() {
         setSessionSeconds(nextSecond);
         setDefaultView(sessionMinutes > 9 ? `${nextMinute}:0${nextSecond}` : `0${nextMinute}:0${nextSecond}`)
-        console.log(defaultSession)
       }
     } else if (isActive && isBreak === false && nextSecond === -1) {
-      setDefaults();
+      // setDefaults();
       if (nextMinute > 0) {
         setSessionMinutes(nextMinute)
         setSessionSeconds(nextSecond + 61);
       }
       else {
-        setTimeout(() => {
-          console.log("Timer has reached 00:00")
-          setIsBreak(true)
-          console.log('Timer done!')
-          setIsBreak(true)
-          setTimerLabel("Break")
-          setSessionSeconds(sessionSeconds + 60)
-          setSessionMinutes(defaultSession)
-          setDefaultView(breakMinutes > 9 ? `${defaultSession}:0${0}` : `0${defaultSession}:0${0}`)
-        }, "1000")
+        // setTimeout(() => {
+        console.log("Timer done!");
+        setTimerLabel("Break");
+        setSessionSeconds(sessionSeconds => sessionSeconds + 60);
+        setSessionMinutes(defaultSession)
+        setDefaultView(sessionMinutes > 9 ? `${defaultSession}:0${0}` : `0${defaultSession}:0${0}`)
+        // }, 1000)
+        setIsBreak(true);
       }
     }
     return () => clearInterval(sessionInterval);
@@ -176,17 +176,17 @@ const SessionTimer = () => {
       setDefaults();
       if (nextBreakMinute > 0) {
         setBreakMinutes(nextBreakMinute)
-        setBreakSeconds(nextBreakSecond + 61);
+        setBreakSeconds(nextBreakSecond + 60);
       }
       else {
         setTimeout(() => {
           console.log('Break timer done!');
           setIsBreak(false)
           setTimerLabel("Session");
-          setBreakSeconds(breakSeconds + 59),
-            setBreakMinutes(defaultBreak)
+          setBreakSeconds(breakSeconds => breakSeconds + 60);
+          setBreakMinutes(defaultBreak)
           setBreakView(breakMinutes > 9 ? `${defaultBreak}:0${0}` : `0${defaultBreak}:0${0}`)
-        }, "1000")
+        }, 1000)
       }
     }
     return () => clearInterval(breakInterval);
