@@ -26,6 +26,7 @@ const SessionTimer = () => {
   const [isBreak, setIsBreak] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [playPause, setPlayPause] = useState(<FontAwesomeIcon icon={faPlay} />);
+  const audio = document.getElementById("beep");
   // const [playAudio, setPlayAudio] = useState(false);
 
   // Views
@@ -99,7 +100,8 @@ const SessionTimer = () => {
     setBreakMinutes(5)
     setBreakSeconds(60)
     setDefaultView(`${25}:00`)
-    // setPlayAudio(false)
+    audio.pause();
+    audio.currentTime = 0;
     clearInterval(sessionInterval)
     clearInterval(breakInterval)
   }
@@ -146,11 +148,15 @@ const SessionTimer = () => {
         // setTimeout(() => {
         console.log("Timer done!");
         setTimerLabel("Break");
-        setSessionSeconds(sessionSeconds => sessionSeconds + 60);
-        setSessionMinutes(defaultSession)
-        setDefaultView(sessionMinutes > 9 ? `${defaultSession}:0${0}` : `0${defaultSession}:0${0}`)
-        // }, 1000)
         setIsBreak(true);
+        // setSessionSeconds(sessionSeconds => sessionSeconds + 60);
+        // setSessionMinutes(defaultSession)
+        // setDefaultView(sessionMinutes > 9 ? `${defaultSession}:0${0}` : `0${defaultSession}:0${0}`)
+        setBreakSeconds(breakSeconds => breakSeconds + 60);
+        setBreakMinutes(defaultBreak)
+        setBreakView(breakMinutes > 9 ? `${defaultBreak}:0${0}` : `0${defaultBreak}:0${0}`)
+        audio.play();
+        // }, 1000)
       }
     }
     return () => clearInterval(sessionInterval);
@@ -183,9 +189,13 @@ const SessionTimer = () => {
           console.log('Break timer done!');
           setIsBreak(false)
           setTimerLabel("Session");
-          setBreakSeconds(breakSeconds => breakSeconds + 60);
-          setBreakMinutes(defaultBreak)
-          setBreakView(breakMinutes > 9 ? `${defaultBreak}:0${0}` : `0${defaultBreak}:0${0}`)
+          setSessionSeconds(sessionSeconds => sessionSeconds + 60);
+          setSessionMinutes(defaultSession)
+          setDefaultView(sessionMinutes > 9 ? `${defaultSession}:0${0}` : `0${defaultSession}:0${0}`)
+          audio.play();
+          // setBreakSeconds(breakSeconds => breakSeconds + 60);
+          // setBreakMinutes(defaultBreak)
+          // setBreakView(breakMinutes > 9 ? `${defaultBreak}:0${0}` : `0${defaultBreak}:0${0}`)
         }, 1000)
       }
     }
@@ -237,6 +247,11 @@ const SessionTimer = () => {
           resetTimer();
         }}><i><FontAwesomeIcon icon={faUndo} /></i></button>
       </div>
+      <audio
+        id="beep"
+        preload="auto"
+        src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"
+      />
     </>
   )
 }
