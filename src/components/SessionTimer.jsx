@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowUp, faArrowDown, faPlay, faUndo, faPause } from '@fortawesome/free-solid-svg-icons'
 
 const SessionTimer = () => {
+
   // Session variables
   const [defaultSession, setDefaultSession] = useState(25)
   const [sessionMinutes, setSessionMinutes] = useState(25);
@@ -27,7 +28,6 @@ const SessionTimer = () => {
   const [isActive, setIsActive] = useState(false);
   const [playPause, setPlayPause] = useState(<FontAwesomeIcon icon={faPlay} />);
   const audio = document.getElementById("beep");
-  // const [playAudio, setPlayAudio] = useState(false);
 
   // Views
   const [defaultView, setDefaultView] = useState(sessionMinutes > 9 ? `${sessionMinutes}:00` : `0${sessionMinutes}:00`)
@@ -35,7 +35,6 @@ const SessionTimer = () => {
 
   let sessionInterval = null;
   let breakInterval = null;
-  // let audio = new Audio('https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav');
 
   // Determines whether timer is active
   function toggle() {
@@ -106,10 +105,6 @@ const SessionTimer = () => {
     clearInterval(breakInterval)
   }
 
-  // useEffect(() => {
-  //   playAudio === true ? audio.play() : audio.pause()
-  // })
-
   // Switches play/pause icon & sets timer to play or pause
   useEffect(() => {
     if (isActive === true) {
@@ -125,38 +120,32 @@ const SessionTimer = () => {
   useEffect(() => {
     setDefaults();
     if (isActive && isBreak === false && nextSecond >= 10) {
-      // setDefaults();
       sessionInterval = setInterval(myCallback, 1000)
       function myCallback() {
         setSessionSeconds(nextSecond);
         setDefaultView(sessionMinutes > 9 ? `${nextMinute}:${nextSecond}` : `0${nextMinute}:${nextSecond}`)
       }
     } else if (isActive && isBreak === false && nextSecond < 10 && nextSecond >= 0) {
-      // setDefaults();
       sessionInterval = setInterval(myCallback, 1000)
       function myCallback() {
         setSessionSeconds(nextSecond);
         setDefaultView(sessionMinutes > 9 ? `${nextMinute}:0${nextSecond}` : `0${nextMinute}:0${nextSecond}`)
       }
     } else if (isActive && isBreak === false && nextSecond === -1) {
-      // setDefaults();
       if (nextMinute > 0) {
         setSessionMinutes(nextMinute)
         setSessionSeconds(nextSecond + 61);
       }
       else {
-        // setTimeout(() => {
-        console.log("Timer done!");
-        setTimerLabel("Break");
-        setIsBreak(true);
-        // setSessionSeconds(sessionSeconds => sessionSeconds + 60);
-        // setSessionMinutes(defaultSession)
-        // setDefaultView(sessionMinutes > 9 ? `${defaultSession}:0${0}` : `0${defaultSession}:0${0}`)
-        setBreakSeconds(breakSeconds => breakSeconds + 60);
-        setBreakMinutes(defaultBreak)
-        setBreakView(breakMinutes > 9 ? `${defaultBreak}:0${0}` : `0${defaultBreak}:0${0}`)
-        audio.play();
-        // }, 1000)
+        setTimeout(() => {
+          console.log("Timer done!");
+          setIsBreak(true);
+          setTimerLabel("Break");
+          setSessionSeconds(sessionSeconds + 60)
+          setSessionMinutes(defaultSession)
+          setDefaultView(breakMinutes > 9 ? `${defaultSession}:0${0}` : `0${defaultSession}:0${0}`)
+          audio.play();
+        }, "1000")
       }
     }
     return () => clearInterval(sessionInterval);
@@ -185,18 +174,15 @@ const SessionTimer = () => {
         setBreakSeconds(nextBreakSecond + 60);
       }
       else {
+        audio.play();
         setTimeout(() => {
           console.log('Break timer done!');
           setIsBreak(false)
           setTimerLabel("Session");
-          setSessionSeconds(sessionSeconds => sessionSeconds + 60);
-          setSessionMinutes(defaultSession)
-          setDefaultView(sessionMinutes > 9 ? `${defaultSession}:0${0}` : `0${defaultSession}:0${0}`)
-          audio.play();
-          // setBreakSeconds(breakSeconds => breakSeconds + 60);
-          // setBreakMinutes(defaultBreak)
-          // setBreakView(breakMinutes > 9 ? `${defaultBreak}:0${0}` : `0${defaultBreak}:0${0}`)
-        }, 1000)
+          setBreakSeconds(breakSeconds + 59)
+          setBreakMinutes(defaultBreak)
+          setBreakView(breakMinutes > 9 ? `${defaultBreak}:0${0}` : `0${defaultBreak}:0${0}`)
+        }, "1000")
       }
     }
     return () => clearInterval(breakInterval);
